@@ -6,6 +6,8 @@ public:
 	void salute();
 	void showmenu(int); 
 	int mainscreen(); 
+	void showfind(int); 
+	int findscreen();
 	~Menu();
 };
 

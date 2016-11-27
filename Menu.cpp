@@ -21,7 +21,7 @@ void Menu::showmenu(int x)
 	HANDLE h;
 	cout << "        Меню\n"; 
 	h = GetStdHandle(STD_OUTPUT_HANDLE);
-	for (int i = 1; i <= 8; i++)
+	for (int i = 1; i <= 9; i++)
 	{
 		if (i == x) 
 		{
@@ -48,27 +48,32 @@ void Menu::showmenu(int x)
 		}
 		case 4:
 		{
-			cout << "4. Поиск продукта"; 
-			break; 
+			cout << "4. Сортировка продуктов по параметрам";
+			break;
 		}
 		case 5:
 		{
-			cout << "5. Показать историю";
+			cout << "5. Поиск продукта"; 
 			break; 
 		}
 		case 6:
 		{
-			cout << "6. Автоматический список продуктов";
+			cout << "6. Показать историю";
 			break; 
 		}
-		case 7: 
+		case 7:
 		{
-			cout << "7. Настройки";
+			cout << "7. Автоматический список продуктов";
+			break; 
+		}
+		case 8: 
+		{
+			cout << "8. Настройки";
 			break;
 		}
-		case 8:
+		case 9:
 		{
-			cout << "8. Выход";
+			cout << "9. Выход";
 			break;
 		}
 		}
@@ -93,14 +98,14 @@ int Menu::mainscreen()
 		case 80:		// up
 		{
 			option++;
-			if (option > 8) { option = 1; }
+			if (option > 9) { option = 1; }
 			showmenu(option);
 			break;
 		}
 		case 72:		//down
 		{
 			option--;
-			if (option < 1) { option = 8; }
+			if (option < 1) { option = 9; }
 			showmenu(option);
 			break;
 		}
@@ -112,6 +117,80 @@ int Menu::mainscreen()
 		}
 	}
 	return option; 
+}
+
+void Menu::showfind(int x)
+{
+	system("cls");
+	HANDLE h;
+	cout << "        Меню\n";
+	h = GetStdHandle(STD_OUTPUT_HANDLE);
+	for (int i = 1; i <= 9; i++)
+	{
+		if (i == x)
+		{
+			SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+			cout << " -> ";
+		}
+		else { cout << "    "; }
+		switch (i)
+		{
+		case 1:
+		{
+			cout << "1. Поиск по названии";
+			break;
+		}
+		case 2:
+		{
+			cout << "2. Поиск по типу(еда/напиток)";
+			break;
+		}
+		case 3:
+		{
+			cout << "3. Поиск по сроку годности";
+			break;
+		}
+		}
+		SetConsoleTextAttribute(h, 15);
+		cout << endl;
+	}
+}
+
+int Menu::findscreen()
+{
+	int inpush;
+
+	int option = 1;
+	showfind(option);
+	bool ifexit = true;
+
+	while (ifexit)
+	{
+		inpush = _getch();
+		switch (inpush)
+		{
+		case 80:		// up
+		{
+			option++;
+			if (option > 3) { option = 1; }
+			showfind(option);
+			break;
+		}
+		case 72:		//down
+		{
+			option--;
+			if (option < 1) { option = 3; }
+			showfind(option);
+			break;
+		}
+		case 13:		//enter
+		{
+			ifexit = false;
+			break;
+		}
+		}
+	}
+	return option;
 }
 
 Menu::~Menu()

@@ -11,6 +11,7 @@ public:
 	void showlist();
 	void add();
 	void del();
+	void find();
 	~IceBox();
 };
 
