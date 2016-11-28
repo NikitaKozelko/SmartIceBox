@@ -12,6 +12,9 @@ public:
 	void add();
 	void del();
 	void find();
+	void downloadactivebox();
+	void saveactivebox();
+	void watchhistory();
 	~IceBox();
 };
 

@@ -1,5 +1,6 @@
 #include "Product.h"
 #include <iostream>
+#include "Date.h"
 
 using namespace std; 
 
@@ -58,9 +59,43 @@ bool Product::isequal(char n[30])
 	return answer; 
 }
 
+bool Product::isequaltype(int a)
+{
+	bool answer = true; 
+	if (a != type) { answer = false;  }
+	return answer; 
+}
+
+bool Product::isequaldate(char l[10])
+{
+	Date d; 
+	bool answer = d.isequal(shelflife, l);
+	return answer; 
+}
+
+char* Product::getname()
+{
+	return name;
+}
+
+int Product::gettype()
+{
+	return type;
+}
+
+int Product::getmass()
+{
+	return mass; 
+}
+
 int Product::getcount()
 {
 	return count; 
+}
+
+char* Product::getdate()
+{
+	return shelflife;
 }
 
 void Product::dimincount(int a)

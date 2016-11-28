@@ -12,7 +12,13 @@ public:
 	Product(char*, int, int, int, char*);
 	void show();
 	bool isequal(char*);
+	bool isequaltype(int);
+	bool isequaldate(char *);
+	char* getname();
+	int gettype();
+	int getmass();
 	int getcount();
+	char* getdate(); 
 	void dimincount(int);
 	~Product();
 };
