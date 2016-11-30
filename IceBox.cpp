@@ -3,6 +3,7 @@
 #include <conio.h>
 #include <windows.h>
 #include "Menu.h"
+#include "Date.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -67,14 +68,15 @@ void IceBox::add()
 	cin >> c; 
 	
 	char life[10];
-	cout << "Введите дату, когда истекает срок годности (ГГ.ММ.ДД):";
+	cout << "Введите дату, когда истекает срок годности (ДД.ММ.ГГ):";
 	cin.ignore(1,'\n');
 	for (int i = 0; i <= 7; i++)
 	{
 		cin.get(life[i]);
 	}
 
-	arr[size] = Product(charr, t, m, c, life);
+	arr[size] = Product(charr, t, m, c, life, 1);
+
 	size++;
 }
 
@@ -113,6 +115,11 @@ void IceBox::del()
 		}
 	}
 	if (fin == false) { cout << "Этот продукт не найден\n"; waitenter(); }
+}
+
+void IceBox::sort()
+{
+
 }
 
 void IceBox::find()
@@ -170,7 +177,7 @@ void IceBox::find()
 	case 3: 
 	{
 		char life[10];
-		cout << "Введите интересующую дату, когда истекает срок годности (ГГ.ММ.ДД):";
+		cout << "Введите интересующую дату, когда истекает срок годности (ДД.ММ.ГГ):";
 		cin.ignore(10,'\n');
 		for (int i = 0; i <= 7; i++)
 		{
@@ -198,23 +205,31 @@ void IceBox::downloadactivebox()
 {
 	ifstream infile("activebox.txt", ios::binary);
 	char name[30], shelflife[10]; int type, mass, count, i=-1;
-	while ((infile.good())&&(!infile.eof()))
+	infile.seekg(0, ios::end);
+	int en = infile.tellg();
+	infile.seekg(0, ios::beg);
+	int a = infile.tellg();
+	cout << a<<endl;
+	while ((infile)&&(!infile.eof())&&((en-a)>2))
 	{
 		i++;
+		cout << "asdasd" << endl; 
 		infile.read(reinterpret_cast<char*>(&name), sizeof(char[30]));
 		infile.read(reinterpret_cast<char*>(&type), sizeof(int));
 		infile.read(reinterpret_cast<char*>(&mass), sizeof(int));
 		infile.read(reinterpret_cast<char*>(&count), sizeof(int));
 		infile.read(reinterpret_cast<char*>(&shelflife), sizeof(char[10]));
-		arr[i] = Product(name, type, mass, count, shelflife);
+		arr[i] = Product(name, type, mass, count, shelflife, 0); 
+		a = infile.tellg();
 	}
 	i++;
 	size = i; 
+	infile.close();
 }
 
 void IceBox::saveactivebox()
 {
-	ofstream outfile("activebox.txt", ios::binary | ios::app);
+	ofstream outfile("activebox.txt", ios::binary | ios::trunc);
 	char* name; char* life; int type, mass, count;
 	for (int i = 0; i < size; i++)
 	{
@@ -223,12 +238,53 @@ void IceBox::saveactivebox()
 		mass = arr[i].getmass();
 		count = arr[i].getcount();
 		life = arr[i].getdate();
-		outfile.write(reinterpret_cast<char*>(&name), sizeof(char[30]));
+		outfile.write(reinterpret_cast<char*>(name), sizeof(char[30]));
 		outfile.write(reinterpret_cast<char*>(&type), sizeof(int)); 
 		outfile.write(reinterpret_cast<char*>(&mass), sizeof(int));
 		outfile.write(reinterpret_cast<char*>(&count), sizeof(int));
-		outfile.write(reinterpret_cast<char*>(&life), sizeof(char[10]));
+		outfile.write(reinterpret_cast<char*>(life), sizeof(char[10]));
 	}
+	outfile.close();
+}
+
+void IceBox::automaticlist()
+{
+	ifstream infile("automaticlist.txt", ios::binary);
+	char name[30], life[10]; double day;
+	infile.seekg(0, ios::end);
+	int en = infile.tellg();
+	infile.seekg(0, ios::beg);
+	int a = infile.tellg();
+	//cout << a << endl;
+	Date d; 
+	while ((infile) && (!infile.eof()) && ((en - a)>2))
+	{
+		infile.read(reinterpret_cast<char*>(&name), sizeof(char[30]));
+		infile.read(reinterpret_cast<char*>(&day), sizeof(double));
+		infile.read(reinterpret_cast<char*>(&life), sizeof(char[10]));
+	//	cout << life << endl;
+		bool b = false; 
+		for (int i = 0; i < size; i++)
+		{
+			if (arr[i].isequal(name))
+			{
+				b = true; 
+			}
+		}
+		if ((b == false)&&((d.dateraznost(life) <= day)))
+		{
+			cout << " - ";
+			int j=0; 
+			while (name[j] != '\n')
+			{
+				cout << name[j];
+				j++;
+			}
+			cout << endl;
+		}
+		a = infile.tellg();
+	}
+	waitenter();
 }
 
 void IceBox::watchhistory()

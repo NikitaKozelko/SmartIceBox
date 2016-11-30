@@ -9,7 +9,7 @@ private:
 	char shelflife[10]; 
 public:
 	Product();
-	Product(char*, int, int, int, char*);
+	Product(char*, int, int, int, char*, int);
 	void show();
 	bool isequal(char*);
 	bool isequaltype(int);

@@ -68,7 +68,7 @@ void Menu::showmenu(int x)
 		}
 		case 8: 
 		{
-			cout << "8. Настройки";
+			cout << "8. Помощь";
 			break;
 		}
 		case 9:

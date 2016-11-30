@@ -11,10 +11,12 @@ public:
 	void showlist();
 	void add();
 	void del();
+	void sort(); 
 	void find();
 	void downloadactivebox();
 	void saveactivebox();
 	void watchhistory();
+	void automaticlist();
 	~IceBox();
 };
 

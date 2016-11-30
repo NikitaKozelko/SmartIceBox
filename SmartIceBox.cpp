@@ -17,7 +17,7 @@ int main()
 	char buffer[80];
 	time_t seconds = time(NULL);
 	tm* timeinfo = localtime(&seconds);
-	char* format = "%B %d $%Y";
+	char* format = "%m %d $%Y";
 	strftime(buffer, 80, format, timeinfo);
 	cout << "Current Datetime: " << buffer << endl;
 
@@ -25,7 +25,7 @@ int main()
 	SetConsoleOutputCP(1251);
 	SetConsoleCP(1251);
 	IceBox box;
-	//box.activebox();
+	box.downloadactivebox();
 	Menu menu; 
 	menu.salute();
 	int pick = menu.mainscreen(); 
@@ -50,13 +50,18 @@ int main()
 		}
 		case 4:
 		{
-			//box.sort();
+			box.sort();
 			break;
 		}
 		case 5:
 		{
 			box.find();
 			break;
+		}
+		case 7:
+		{
+			box.automaticlist();
+			break; 
 		}
 		default:
 		{
@@ -85,5 +90,6 @@ int main()
 		}
 		pick = menu.mainscreen();
 	}
+	box.saveactivebox();
 	system("pause");
 }

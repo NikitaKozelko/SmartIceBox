@@ -1,6 +1,12 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Product.h"
 #include <iostream>
 #include "Date.h"
+#include "Forlist.h"
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <ctime>
 
 using namespace std; 
 
@@ -8,7 +14,7 @@ Product::Product()
 {
 }
 
-Product::Product(char n[30], int t, int m, int c, char l[30]) : type(t), mass(m), count(c)
+Product::Product(char n[30], int t, int m, int c, char l[30], int x) : type(t), mass(m), count(c)
 {
 	int i = 0;
 	while (n[i] != '\n')
@@ -22,6 +28,66 @@ Product::Product(char n[30], int t, int m, int c, char l[30]) : type(t), mass(m)
 	for (int j = 0; j <= 7; j++)
 	{
 		shelflife[j] = l[j];
+	}
+
+	if (x == 1)
+	{
+		ifstream infile("automaticlist.txt", ios::binary);
+		double day;
+		infile.seekg(0, ios::end);
+		int en = infile.tellg();
+		infile.seekg(0, ios::beg);
+		int a = infile.tellg();
+		Date d;
+		i = -1; Forlist f[1000];
+		while ((infile) && (!infile.eof()) && ((en - a) > 2))
+		{
+			i++;
+			char n[30], l[10]; 
+			infile.read(reinterpret_cast<char*>(&n), sizeof(char[30]));
+			infile.read(reinterpret_cast<char*>(&day), sizeof(double));
+			infile.read(reinterpret_cast<char*>(&l), sizeof(char[10]));
+			f[i] = Forlist(n, day, l);
+			a = infile.tellg();
+		}
+		infile.close();
+		bool b = true;
+		for (int j = 0; j <= i; j++)
+		{
+			if (f[j].isequal(name))
+			{
+				b = false;
+				day = day + d.dateraznost(l);
+				day = day / 2;
+				f[j].setlastcustom(l);
+			}
+		}
+
+		if (b)
+		{
+			i++;
+			f[i].setname(name);
+			f[i].day = 0;
+			char buffer[80];
+			time_t seconds = time(NULL);
+			tm* timeinfo = localtime(&seconds);
+			char* format = "%d.%m.%Y";
+			strftime(buffer, 80, format, timeinfo);
+			f[i].setlastcustom(buffer);
+		}
+
+		ofstream outfile("automaticlist.txt", ios::binary | ios::trunc);
+		//char* name; char* life; int type, mass, count;
+		for (int j = 0; j <= i; j++)
+		{
+			n = f[j].name;
+			day = f[j].day;
+			l = f[j].lastcustom;
+			outfile.write(reinterpret_cast<char*>(n), sizeof(char[30]));
+			outfile.write(reinterpret_cast<char*>(&day), sizeof(double));
+			outfile.write(reinterpret_cast<char*>(l), sizeof(char[10]));
+		}
+		outfile.close();
 	}
 }
 
