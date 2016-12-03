@@ -1,7 +1,5 @@
 #include "Forlist.h"
 
-
-
 Forlist::Forlist()
 {
 }

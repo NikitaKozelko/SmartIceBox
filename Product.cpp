@@ -7,6 +7,7 @@
 #include <iostream>
 #include <sstream>
 #include <ctime>
+#include <windows.h>
 
 using namespace std; 
 
@@ -21,7 +22,6 @@ Product::Product(char n[30], int t, int m, int c, char l[30], int x) : type(t), 
 	{
 		name[i] = n[i];
 		i++;
-		//cout << "f"; 
 	}
 	name[i] = '\n';
 
@@ -73,6 +73,7 @@ Product::Product(char n[30], int t, int m, int c, char l[30], int x) : type(t), 
 			tm* timeinfo = localtime(&seconds);
 			char* format = "%d.%m.%Y";
 			strftime(buffer, 80, format, timeinfo);
+			buffer[6] = buffer[8]; buffer[7] = buffer[9];
 			f[i].setlastcustom(buffer);
 		}
 
@@ -88,11 +89,33 @@ Product::Product(char n[30], int t, int m, int c, char l[30], int x) : type(t), 
 			outfile.write(reinterpret_cast<char*>(l), sizeof(char[10]));
 		}
 		outfile.close();
+
+		ofstream outfile1("history.txt", ios::binary | ios::app);
+
+		outfile1.write(reinterpret_cast<char*>(n), sizeof(char[30]));
+		outfile1.write(reinterpret_cast<char*>(&t), sizeof(int));
+		outfile1.write(reinterpret_cast<char*>(&m), sizeof(int));
+		outfile1.write(reinterpret_cast<char*>(&c), sizeof(int));
+		outfile1.write(reinterpret_cast<char*>(l), sizeof(char[10]));
+		outfile1.close();
 	}
 }
 
 void Product::show()
 {
+	Date d; 
+	HANDLE h;
+	h = GetStdHandle(STD_OUTPUT_HANDLE);
+	int a = d.dateraznost(shelflife);
+	SetConsoleTextAttribute(h, 15);
+	//cout << a<<endl; 
+	if (a > 3)
+	{
+		SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_INTENSITY);
+	}
+	if (a < 0) {
+		SetConsoleTextAttribute(h, FOREGROUND_RED | FOREGROUND_INTENSITY);
+	}
 	cout << "Название - ";
 	int i = 0;
 	while (name[i]!='\n')
@@ -109,6 +132,7 @@ void Product::show()
 		cout << shelflife[i]; 
 	}
 	cout << ";"<<endl;
+	SetConsoleTextAttribute(h, 15);
 }
 
 bool Product::isequal(char n[30])

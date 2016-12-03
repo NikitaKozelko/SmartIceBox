@@ -8,6 +8,10 @@ public:
 	int mainscreen(); 
 	void showfind(int); 
 	int findscreen();
+	int sortscreen();
+	void showsort(int);
+	void showsetting(int);
+	int settingscreen();
 	~Menu();
 };
 

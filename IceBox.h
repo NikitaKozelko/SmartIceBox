@@ -17,6 +17,7 @@ public:
 	void saveactivebox();
 	void watchhistory();
 	void automaticlist();
+	void setting();
 	~IceBox();
 };
 

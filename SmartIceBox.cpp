@@ -6,7 +6,7 @@
 #include <ctime>
 #include <windows.h>
 using namespace std; 
-
+//изменить сортировку на быструю 
 
 int main()
 {/*
@@ -21,12 +21,15 @@ int main()
 	strftime(buffer, 80, format, timeinfo);
 	cout << "Current Datetime: " << buffer << endl;
 
+	system("pause");
+
 	setlocale(LC_ALL, "Russian");
 	SetConsoleOutputCP(1251);
 	SetConsoleCP(1251);
 	IceBox box;
 	box.downloadactivebox();
 	Menu menu; 
+	//system("mode 100,30");
 	menu.salute();
 	int pick = menu.mainscreen(); 
 	while (pick != 9)
@@ -35,6 +38,7 @@ int main()
 		{
 		case 1:
 		{
+			//system("mode 90,15");
 			box.showlist();
 			break;
 		}
@@ -58,9 +62,19 @@ int main()
 			box.find();
 			break;
 		}
+		case 6: 
+		{
+			box.watchhistory();
+			break;
+		}
 		case 7:
 		{
 			box.automaticlist();
+			break; 
+		}
+		case 8: 
+		{
+			box.setting();
 			break; 
 		}
 		default:
