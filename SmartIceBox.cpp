@@ -9,28 +9,16 @@ using namespace std;
 //изменить сортировку на быструю 
 
 int main()
-{/*
-	time_t seconds = time(NULL);
-	tm* timeinfo = localtime(&seconds);
-	cout << "Current Datetime:" << asctime(timeinfo) << endl;  */
-
-	char buffer[80];
-	time_t seconds = time(NULL);
-	tm* timeinfo = localtime(&seconds);
-	char* format = "%m %d $%Y";
-	strftime(buffer, 80, format, timeinfo);
-	cout << "Current Datetime: " << buffer << endl;
-
-	system("pause");
-
+{
 	setlocale(LC_ALL, "Russian");
 	SetConsoleOutputCP(1251);
 	SetConsoleCP(1251);
 	IceBox box;
 	box.downloadactivebox();
 	Menu menu; 
-	//system("mode 100,30");
+	system("mode 80,33");
 	menu.salute();
+	system("mode 50,11");
 	int pick = menu.mainscreen(); 
 	while (pick != 9)
 	{
@@ -38,42 +26,55 @@ int main()
 		{
 		case 1:
 		{
-			//system("mode 90,15");
+			system("mode 100,15");
+			COORD crd = { 90, 100 };
+			SMALL_RECT src = { 0, 0, crd.X, crd.Y };
+			SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), crd);
 			box.showlist();
 			break;
 		}
 		case 2:
 		{
+			system("mode 70,15");
 			box.add();
 			break;
 		}
 		case 3:
 		{
+			system("mode 70,15");
 			box.del();
 			break;
 		}
 		case 4:
 		{
+			system("mode 46,10");
 			box.sort();
 			break;
 		}
 		case 5:
 		{
+			system("mode 90,10");
 			box.find();
 			break;
 		}
 		case 6: 
 		{
+			system("mode 90,15");
+			COORD crd = { 90, 100 };
+			SMALL_RECT src = { 0, 0, crd.X, crd.Y };
+			SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), crd);
 			box.watchhistory();
 			break;
 		}
 		case 7:
 		{
+			system("mode 73,10");
 			box.automaticlist();
 			break; 
 		}
 		case 8: 
 		{
+			system("mode 46,10");
 			box.setting();
 			break; 
 		}
@@ -102,8 +103,12 @@ int main()
 			}
 		}
 		}
+		system("mode 50,11");
 		pick = menu.mainscreen();
 	}
 	box.saveactivebox();
-	system("pause");
+
+	system("mode 80,33");
+	menu.bye();
+	//system("pause");
 }

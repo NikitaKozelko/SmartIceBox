@@ -1,4 +1,6 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "Forlist.h"
+#include <ctime>
 
 Forlist::Forlist()
 {
@@ -45,11 +47,17 @@ void Forlist::setname(char n[30])
 	}
 }
 
-void Forlist::setlastcustom(char l[10])
+void Forlist::setlastcustom()
 {
+	char buffer[80];
+	time_t seconds = time(NULL);
+	tm* timeinfo = localtime(&seconds);
+	char* format = "%d.%m.%Y";
+	strftime(buffer, 80, format, timeinfo);
+	buffer[6] = buffer[8]; buffer[7] = buffer[9];
 	for (int j = 0; j <= 7; j++)
 	{
-		lastcustom[j] = l[j];
+		lastcustom[j] = buffer[j];
 	}
 }
 

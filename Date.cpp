@@ -20,6 +20,22 @@ bool Date::isequal(char str1[10], char str2[10])
 	return answer; 
 }
 
+int Date::raznost(char str1[10], char str2[10])
+{
+	int month1 = (str1[3] - '0') * 10 + (str1[4] - '0');
+	int day1 = (str1[0] - '0') * 10 + (str1[1] - '0');
+	int year1 = (str1[6] - '0') * 10 + (str1[7] - '0');
+	int day2 = (str2[0] - '0') * 10 + (str2[1] - '0');
+	int month2 = (str2[3] - '0') * 10 + (str2[4] - '0');
+	int year2 = (str2[6] - '0') * 10 + (str2[7] - '0');
+	
+	int answer;
+	if (month1 == month2) { answer = day2 - day1; }
+	if ((month2 > month1) && (year1 == year2)) { answer = 31 - day1 + (month2 - month1 - 1) * 31 + day2; }
+
+	return answer; 
+}
+
 int Date::dateraznost(char str2[10])
 {
 	char buffer[80];

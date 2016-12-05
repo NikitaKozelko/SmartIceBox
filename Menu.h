@@ -12,6 +12,7 @@ public:
 	void showsort(int);
 	void showsetting(int);
 	int settingscreen();
+	void bye();
 	~Menu();
 };
 

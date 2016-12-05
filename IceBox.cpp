@@ -33,14 +33,13 @@ IceBox::IceBox()
 void IceBox::showlist()
 {
 	system("cls");
-	cout << size << endl;
 	cout << "        Список продуктов\n";
 	for (int i = 0; i < size; i++)
 	{
 		cout << i+1 << ". "; 
 		arr[i].show();
 	}
-	system("pause");
+	waitenter();
 }
 
 void IceBox::add()
@@ -114,6 +113,10 @@ void IceBox::del()
 		charr[t] = ch;
 		cin.get(ch);
 	}
+	while (charr[t] == ' ')
+	{
+		t--;
+	}
 	t++; charr[t] = '\n';
 	int a; bool fin=false; 
 	for (int i = 0; i < size; i++)
@@ -152,6 +155,7 @@ void IceBox::sort()
 	case 1:
 	{
 		Product p; 
+		
 		for (int i = 0; i < size; i++)
 		{
 			string s1;
@@ -161,7 +165,7 @@ void IceBox::sort()
 			{
 				string s2; 
 				s2 = arr[j].getname();
-				if (s1 > s2) { min = j; }
+				if (s1 > s2) { min = j; s1 = s2; }
 			}
 			p = arr[i]; arr[i] = arr[min]; arr[min] = p; 
 		}
@@ -206,6 +210,10 @@ void IceBox::sort()
 	default:
 		break;
 	}
+	if (pick!=0){
+		cout << "Сортировка по заданному параметру произведена" << endl;
+		waitenter();
+	}	
 }
 
 void IceBox::find()
@@ -233,6 +241,10 @@ void IceBox::find()
 			charr[i] = ch; 
 			cin.get(ch);
 		} 
+		while (charr[i] == ' ')
+		{
+			i--;
+		}
 		i++; charr[i] = '\n'; 
 		bool b = true;
 		for (i = 0; i < size; i++)
@@ -314,11 +326,9 @@ void IceBox::downloadactivebox()
 	int en = infile.tellg();
 	infile.seekg(0, ios::beg);
 	int a = infile.tellg();
-	//cout << a<<endl;
 	while ((infile)&&(!infile.eof())&&((en-a)>2))
 	{
 		i++;
-		//cout << "asdasd" << endl; 
 		infile.read(reinterpret_cast<char*>(&name), sizeof(char[30]));
 		infile.read(reinterpret_cast<char*>(&type), sizeof(int));
 		infile.read(reinterpret_cast<char*>(&mass), sizeof(int));
@@ -361,27 +371,23 @@ void IceBox::automaticlist()
 	int en = infile.tellg();
 	infile.seekg(0, ios::beg);
 	int a = infile.tellg();
-	//cout << a << endl;
 	Date d;  bool bb = true;
 	while ((infile) && (!infile.eof()) && ((en - a)>2))
 	{
 		infile.read(reinterpret_cast<char*>(&name), sizeof(char[30]));
 		infile.read(reinterpret_cast<char*>(&day), sizeof(double));
 		infile.read(reinterpret_cast<char*>(&life), sizeof(char[10]));
-	//	cout << life << endl;
 		bool b = false; 
 		for (int i = 0; i < size; i++)
 		{
 			if (arr[i].isequal(name))
 			{
-				//if (b == false) { cout << "     Список продуктов\n"; }
 				b = true; 
 			}
 		}
 		if ((b == false)&&((d.dateraznost(life) <= day)))
 		{
 			if (bb == true) { cout << "     Список продуктов\n"; }
-			cout << d.dateraznost(life); cout << " "<<life<<" "; 
 			cout << " - ";
 			int j=0; 
 			bb = false;
@@ -396,6 +402,7 @@ void IceBox::automaticlist()
 	}
 	if (bb) { cout << "Малое количество продуктов лежали в этом холодильнике, чтобы вам помочь." << endl; }
 	waitenter();
+	infile.close();
 }
 
 void IceBox::watchhistory()
@@ -407,12 +414,11 @@ void IceBox::watchhistory()
 	int en = infile.tellg();
 	infile.seekg(0, ios::beg);
 	int a = infile.tellg();
-	//cout << a<<endl;
-	Product ar; 
+	Product ar; bool b = true; 
 	while ((infile) && (!infile.eof()) && ((en - a)>2))
 	{
 		i++;
-		//cout << "asdasd" << endl; 
+		if (b) { b = false; cout << "     История" << endl; } 
 		infile.read(reinterpret_cast<char*>(&name), sizeof(char[30]));
 		infile.read(reinterpret_cast<char*>(&type), sizeof(int));
 		infile.read(reinterpret_cast<char*>(&mass), sizeof(int));
@@ -422,6 +428,7 @@ void IceBox::watchhistory()
 		ar.show();
 		a = infile.tellg();
 	}
+	if (b) { cout << "История хранения продуктов - пуста." << endl; }
 	infile.close();
 	waitenter();
 }
@@ -435,19 +442,22 @@ void IceBox::setting()
 	{
 	case 1: 
 	{
-		ifstream infile("history.txt", ios::trunc);
-		infile.close();
+		ofstream outfile("history.txt", ios::trunc);
+		outfile.close();
+		break;
 	}
 	case 2:
 	{
-		ifstream infile("automaticlist.txt", ios::trunc);
-		infile.close();
+		ofstream outfile("automaticlist.txt", ios::binary | ios::trunc);
+		outfile.close();
+		break;
 	}
 	case 3: 
 	{
-		ifstream infile("activebox.txt", ios::trunc);
-		infile.close();
+		ofstream outfile("activebox.txt", ios::trunc);
+		outfile.close();
 		size = 0; 
+		break;
 	}
 	case 4:
 	{

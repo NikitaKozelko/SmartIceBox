@@ -57,9 +57,9 @@ Product::Product(char n[30], int t, int m, int c, char l[30], int x) : type(t), 
 			if (f[j].isequal(name))
 			{
 				b = false;
-				day = day + d.dateraznost(l);
+				day = day + d.raznost(f[j].lastcustom,l);
 				day = day / 2;
-				f[j].setlastcustom(l);
+				f[j].setlastcustom();
 			}
 		}
 
@@ -68,17 +68,10 @@ Product::Product(char n[30], int t, int m, int c, char l[30], int x) : type(t), 
 			i++;
 			f[i].setname(name);
 			f[i].day = 0;
-			char buffer[80];
-			time_t seconds = time(NULL);
-			tm* timeinfo = localtime(&seconds);
-			char* format = "%d.%m.%Y";
-			strftime(buffer, 80, format, timeinfo);
-			buffer[6] = buffer[8]; buffer[7] = buffer[9];
-			f[i].setlastcustom(buffer);
+			f[i].setlastcustom();
 		}
 
 		ofstream outfile("automaticlist.txt", ios::binary | ios::trunc);
-		//char* name; char* life; int type, mass, count;
 		for (int j = 0; j <= i; j++)
 		{
 			n = f[j].name;
@@ -108,7 +101,6 @@ void Product::show()
 	h = GetStdHandle(STD_OUTPUT_HANDLE);
 	int a = d.dateraznost(shelflife);
 	SetConsoleTextAttribute(h, 15);
-	//cout << a<<endl; 
 	if (a > 3)
 	{
 		SetConsoleTextAttribute(h, FOREGROUND_GREEN | FOREGROUND_INTENSITY);

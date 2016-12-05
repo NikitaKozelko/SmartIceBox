@@ -10,7 +10,7 @@ public:
 	Forlist(char*, double, char*);
 	bool isequal(char*);
 	void setname(char*);
-	void setlastcustom(char*);
+	void setlastcustom();
 	~Forlist();
 };
 

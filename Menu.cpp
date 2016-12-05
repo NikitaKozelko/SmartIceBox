@@ -18,13 +18,14 @@ void Menu::salute()
 	h = GetStdHandle(STD_OUTPUT_HANDLE);
 	SetConsoleTextAttribute(h,FOREGROUND_BLUE | FOREGROUND_INTENSITY);
 
+	cout << endl;
 	cout << "                                ¶¶¶¶¶¶¶¶\n";
 	cout << "		                ¶¶¶______¶¶\n";
 	cout << "	                         ¶¶¶_______¶¶\n";
 	cout << "		                  ¶¶_________¶¶\n";
 	cout << " 		                   ¶¶_________¶    ¶¶¶¶¶¶\n";
 	cout << "		                   ¶¶________¶¶_¶¶¶¶¶3333¶¶¶\n";
-	cout << "		                    ¶¶¶_______¶¶¶¶33333333¶¶¶\n";
+	cout << "		 Hello!             ¶¶¶_______¶¶¶¶33333333¶¶¶\n";
 	cout << "		                     ¶¶¶______¶¶333333333333¶¶\n";
 	cout << "		                      ¶¶¶¶¶¶¶¶¶¶¶33333333333¶¶¶\n";
 	cout << "		                       ¶¶¶¶11111¶¶¶¶33333¶¶¶¶¶¶\n";
@@ -161,9 +162,9 @@ void Menu::showfind(int x)
 {
 	system("cls");
 	HANDLE h;
-	cout << "        Ïîèñê ïî êðèòåðèþ\n";
 	h = GetStdHandle(STD_OUTPUT_HANDLE);
-	for (int i = 1; i <= 9; i++)
+	cout << "        Ïîèñê ïî êðèòåðèþ\n";
+	for (int i = 1; i <= 3; i++)
 	{
 		if (i == x)
 		{
@@ -241,8 +242,8 @@ void Menu::showsort(int x)
 {
 	system("cls");
 	HANDLE h;
-	cout << "        Ñîðòèðîâêà ïî ïàðàìåòðó\n";
 	h = GetStdHandle(STD_OUTPUT_HANDLE);
+	cout << "        Ñîðòèðîâêà ïî ïàðàìåòðó\n";
 	for (int i = 1; i <= 3; i++)
 	{
 		if (i == x)
@@ -279,7 +280,7 @@ int Menu::sortscreen()
 	int inpush;
 
 	int option = 1;
-	showfind(option);
+	showsort(option);
 	bool ifexit = true;
 
 	while (ifexit)
@@ -291,14 +292,14 @@ int Menu::sortscreen()
 		{
 			option++;
 			if (option > 3) { option = 1; }
-			showfind(option);
+			showsort(option);
 			break;
 		}
 		case 72:		//down
 		{
 			option--;
 			if (option < 1) { option = 3; }
-			showfind(option);
+			showsort(option);
 			break;
 		}
 		case 13:		//enter
@@ -364,7 +365,7 @@ int Menu::settingscreen()
 	int inpush;
 
 	int option = 1;
-	showfind(option);
+	showsetting(option);
 	bool ifexit = true;
 
 	while (ifexit)
@@ -376,14 +377,14 @@ int Menu::settingscreen()
 		{
 			option++;
 			if (option > 4) { option = 1; }
-			showfind(option);
+			showsetting(option);
 			break;
 		}
 		case 72:		//down
 		{
 			option--;
 			if (option < 1) { option = 4; }
-			showfind(option);
+			showsetting(option);
 			break;
 		}
 		case 13:		//enter
@@ -400,6 +401,46 @@ int Menu::settingscreen()
 		}
 	}
 	return option;
+}
+
+void Menu::bye()
+{
+	HANDLE h;
+	h = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetConsoleTextAttribute(h, FOREGROUND_BLUE | FOREGROUND_INTENSITY);
+
+	cout << endl;
+	cout << "                                ¶¶¶¶¶¶¶¶\n";
+	cout << "		                ¶¶¶______¶¶\n";
+	cout << "	                         ¶¶¶_______¶¶\n";
+	cout << "		                  ¶¶_________¶¶\n";
+	cout << " 		                   ¶¶_________¶    ¶¶¶¶¶¶\n";
+	cout << "		                   ¶¶________¶¶_¶¶¶¶¶3333¶¶¶\n";
+	cout << "		                    ¶¶¶_______¶¶¶¶33333333¶¶¶\n";
+	cout << "		 Goodbye!            ¶¶¶______¶¶333333333333¶¶\n";
+	cout << "		                      ¶¶¶¶¶¶¶¶¶¶¶33333333333¶¶¶\n";
+	cout << "		                       ¶¶¶¶11111¶¶¶¶33333¶¶¶¶¶¶\n";
+	cout << "		                       ¶¶11111111111¶¶33¶¶¶¶¶¶¶¶¶¶¶\n";
+	cout << "		                     ¶¶1111111111111¶¶¶¶88888888¶¶¶¶\n";
+	cout << "		Smart IceBox         ¶111111111111111¶888888888888¶¶¶\n";
+	cout << "		Óìíûé õîëîäèëüíèê    ¶¶11111111111¶¶¶¶¶888888888888¶¶\n";
+	cout << "		                      ¶¶¶11111111¶¶___¶¶888888888¶¶¶\n         ";
+	cout << "                              ¶¶¶¶¶¶111¶¶_____¶¶888888¶¶¶¶\n";
+	cout << "		                        ¶¶__¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶¶_¶¶\n";
+	cout << "		                        ¶¶¶_¶¶__¶¶____¶¶¶¶¶¶¶___¶¶\n";
+	cout << "		                         ¶¶¶¶¶¶¶¶__¶__¶¶¶_¶¶¶¶_¶¶\n";
+	cout << "		                          ¶¶_¶_¶¶____¶¶¶¶¶¶__¶¶¶\n";
+	cout << "		                           ¶____¶¶¶¶¶¶__¶¶¶¶¶_¶\n";
+	cout << "		                           ¶¶_____¶¶¶______¶_¶¶\n";
+	cout << "		                            ¶¶______¶¶___¶¶¶¶¶\n";
+	cout << "		                             ¶¶______¶¶¶¶¶¶¶¶\n";
+	cout << "		                              ¶¶____¶¶____¶¶\n";
+	cout << "		                               ¶¶¶¶¶¶¶¶¶_¶¶¶\n";
+	cout << "		by Nikita Kozelko              ¶¶¶¶____¶¶¶¶\n";
+	cout << "		                                ¶¶_____¶¶¶\n";
+	cout << "		                                 ¶¶¶_¶_¶¶\n";
+	cout << "		                                  ¶¶¶¶¶¶¶\n\n                   ";
+	waitenter();
 }
 
 Menu::~Menu()
