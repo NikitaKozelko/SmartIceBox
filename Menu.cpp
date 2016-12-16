@@ -441,6 +441,7 @@ void Menu::bye()
 	cout << "		                                 ¶¶¶_¶_¶¶\n";
 	cout << "		                                  ¶¶¶¶¶¶¶\n\n                   ";
 	waitenter();
+	exit; 
 }
 
 Menu::~Menu()

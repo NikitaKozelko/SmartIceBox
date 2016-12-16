@@ -7,8 +7,18 @@
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <string>
 
 using namespace std; 
+
+template<typename T>
+T fromString(const std::string& s)
+{
+	std::istringstream iss(s);
+	T res;
+	iss >> res;
+	return res;
+}
 
 void waitenter()
 {
@@ -48,6 +58,7 @@ void IceBox::add()
 	cout << "Введите название продукта - ";
 	char ch, charr[30];
 	int t = -1, m, c;
+	string mm, cc;
 	fflush(stdin);
 	cin.get(ch);
 	while (ch == '\n')
@@ -65,10 +76,70 @@ void IceBox::add()
 	t++; charr[t] = '\n';
 	cout << "Тип продукта (0 - еда, 1 - напиток) - "; 
 	cin >> t; 
-	if (t == 1) { cout << "Введите обьём - "; cin >> m; }
-	else { cout << "Введите массу - "; cin >> m;  }
-	cout << "Введите количество - "; 
-	cin >> c; 
+	cin.ignore();
+	if (t == 1) 
+		{  
+			bool b = false;
+			while (!b)
+			{
+				b = true;
+				cout << "Введите обьём (в милилитрах) - "; 
+				getline(cin, mm, '\n');
+				for (int i = 0; i < mm.size(); i++)
+				{
+					if (mm[i]<'0' || mm[i]>'9')
+					{
+						b = false;
+						cout << "Некорректный ввод данных. Требуется ввести целое число." << endl;
+						break;
+					}
+				}
+			}
+			m = fromString<int>(mm);
+		}
+	else { 
+			bool b = false;
+			while (!b)
+			{
+				b = true;
+				cout << "Введите массу(в граммах) - "; 
+				fflush(stdin);
+				getline(cin, mm, '\n');
+				if (mm.size() <= 1)
+				{
+					b = false;
+				}
+				for (int i = 0; i < mm.size(); i++)
+				{
+					
+					if (mm[i]<'0' || mm[i]>'9')
+					{
+						b = false; 
+						cout << "Некорректный ввод данных. Требуется ввести целое число." << endl;
+						break;
+					}
+				}
+			}
+			m = fromString<int>(mm);
+		 }
+
+	bool b = false;
+	while (!b)
+	{
+		b = true;
+		cout << "Введите количество - ";
+		getline(cin, cc, '\n');
+		for (int i = 0; i < cc.size(); i++)
+		{
+			if (cc[i]<'0' || cc[i]>'9')
+			{
+				b = false;
+				cout << "Некорректный ввод данных. Требуется ввести целое число." << endl;
+				break; 
+			}
+		}
+	}
+	c = fromString<int>(cc);
 	
 	char life[10];
 	cout << "Введите дату, когда истекает срок годности (ДД.ММ.ГГ):";
@@ -124,14 +195,14 @@ void IceBox::del()
 		if (arr[i].isequal(charr))
 		{
 			fin = true;
-			cout << "В каком количестве? \n"; 
+			cout << "В каком количестве(в граммах/милилитрах)? \n"; 
 			cin >> a; 
 			if (a >= arr[i].getcount())
-			{
+			{	
 				arr[i] = arr[size-1];
 				size--;
 			}
-			else 
+			else
 			{
 				arr[i].dimincount(a);
 			}
@@ -156,54 +227,113 @@ void IceBox::sort()
 	{
 		Product p; 
 		
-		for (int i = 0; i < size; i++)
+		int step = size-1; 
+		double fakt = 1.2473309;
+
+		while (step > 1)
 		{
-			string s1;
-			s1 = arr[i].getname();
-			int min = i;
-			for (int j = i + 1; j < size; j++)
+			for (int i = 0; i + step < size; i++)
 			{
-				string s2; 
-				s2 = arr[j].getname();
-				if (s1 > s2) { min = j; s1 = s2; }
+				string s1 = arr[i].getname();
+				string s2 = arr[i + step].getname();
+				if (s1 > s2)
+				{
+					p = arr[i]; arr[i] = arr[i+step]; arr[i+step] = p;
+				}
 			}
-			p = arr[i]; arr[i] = arr[min]; arr[min] = p; 
+			step = step / fakt; 
+		}
+		
+		for (int i = 0; i < size - 1; i++)
+		{
+			bool swapped = false;
+			for (int j = 0; j < size - i - 1; j++)
+			{
+				string s1 = arr[j].getname();
+				string s2 = arr[j + 1].getname();
+				if (s1 > s2)
+				{
+					p = arr[j]; arr[j] = arr[j + 1]; arr[j + 1] = p;
+					swapped = true; 
+				}
+			}
+			if (!swapped) break; 
 		}
 		break;
 	}
 	case 2:
 	{
 		Product p;
-		for (int i = 0; i < size; i++)
+
+		int step = size - 1;
+		double fakt = 1.2473309;
+
+		while (step > 1)
 		{
-			int a1;
-			a1 = arr[i].gettype();
-			int min = i;
-			for (int j = i + 1; j < size; j++)
+			for (int i = 0; i + step < size; i++)
 			{
-				int a2;
-				a2 = arr[j].gettype();
-				if (a1 > a2) { min = j; }
+				int a1 = arr[i].gettype();
+				int a2 = arr[i + step].gettype();
+				if (a1 > a2)
+				{
+					p = arr[i]; arr[i] = arr[i + step]; arr[i + step] = p;
+				}
 			}
-			p = arr[i]; arr[i] = arr[min]; arr[min] = p;
+			step = step / fakt;
+		}
+
+		for (int i = 0; i < size - 1; i++)
+		{
+			bool swapped = false;
+			for (int j = 0; j < size - i - 1; j++)
+			{
+				int a1 = arr[j].gettype();
+				int a2 = arr[j + 1].gettype();
+				if (a1 > a2)
+				{
+					p = arr[j]; arr[j] = arr[j + 1]; arr[j + 1] = p;
+					swapped = true;
+				}
+			}
+			if (!swapped) break;
 		}
 		break;
 	}
 	case 3:
 	{
-		Product p; Date d;
-		for (int i = 0; i < size; i++)
+		Product p; Date d; 
+
+		int step = size - 1;
+		double fakt = 1.2473309;
+
+		while (step > 1)
 		{
-			char* s1;
-			s1 = arr[i].getdate();
-			int min = i;
-			for (int j = i + 1; j < size; j++)
+			for (int i = 0; i + step < size; i++)
 			{
-				char* s2;
-				s2 = arr[j].getdate();
-				if (d.compare(s1, s2)) { min = j; }
+				char* s1 = arr[i].getdate();
+				char* s2 = arr[i + step].getdate();
+				if (d.compare(s1, s2))
+				{
+					p = arr[i]; arr[i] = arr[i + step]; arr[i + step] = p;
+				}
 			}
-			p = arr[i]; arr[i] = arr[min]; arr[min] = p;
+			step = step / fakt;
+		}
+
+		for (int i = 0; i < size - 1; i++)
+		{
+			bool swapped = false;
+			for (int j = 0; j < size - i - 1; j++)
+			{
+				char* s1 = arr[j].getdate();
+				char* s2 = arr[j + 1].getdate();
+				if (d.compare(s1, s2))
+				{
+					p = arr[j]; arr[j] = arr[j + 1]; arr[j + 1] = p;
+					swapped = true;
+				}
+			}
+			if (!swapped) break;
 		}
 		break;
 	}
@@ -470,4 +600,5 @@ void IceBox::setting()
 
 IceBox::~IceBox()
 {
+	delete arr; 
 }

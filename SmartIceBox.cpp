@@ -6,7 +6,6 @@
 #include <ctime>
 #include <windows.h>
 using namespace std; 
-//изменить сортировку на быструю 
 
 int main()
 {
@@ -110,5 +109,5 @@ int main()
 
 	system("mode 80,33");
 	menu.bye();
-	//system("pause");
+	exit(0);
 }
