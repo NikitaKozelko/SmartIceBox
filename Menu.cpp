@@ -376,14 +376,14 @@ int Menu::settingscreen()
 		case 80:		// up
 		{
 			option++;
-			if (option > 4) { option = 1; }
+			if (option > 3) { option = 1; }
 			showsetting(option);
 			break;
 		}
 		case 72:		//down
 		{
 			option--;
-			if (option < 1) { option = 4; }
+			if (option < 1) { option = 3; }
 			showsetting(option);
 			break;
 		}

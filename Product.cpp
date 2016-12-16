@@ -94,7 +94,7 @@ Product::Product(char n[30], int t, int m, int c, char l[30], int x) : type(t), 
 	}
 }
 
-void Product::show()
+void Product::showcolorON()
 {
 	Date d; 
 	HANDLE h;
@@ -125,6 +125,26 @@ void Product::show()
 	}
 	cout << ";"<<endl;
 	SetConsoleTextAttribute(h, 15);
+}
+
+void Product::showcolorOFF()
+{
+	cout << "Название - ";
+	int i = 0;
+	while (name[i] != '\n')
+	{
+		cout << name[i]; i++;
+	}
+	cout << ";";
+	if (type == 1) { cout << "обьёмом - " << mass << "; "; }
+	else { cout << "массой - " << mass << "; "; }
+	cout << "в количестве - " << count << ";";
+	cout << "со сроком годности: ";
+	for (i = 0; i <= 7; i++)
+	{
+		cout << shelflife[i];
+	}
+	cout << ";" << endl;
 }
 
 bool Product::isequal(char n[30])

@@ -8,7 +8,8 @@ private:
 	int size; 
 public:
 	IceBox();
-	void showlist();
+	void showlistcolorON();
+	void showlistcolorOFF();
 	void add();
 	void del();
 	void sort(); 

@@ -29,7 +29,7 @@ int main()
 			COORD crd = { 90, 100 };
 			SMALL_RECT src = { 0, 0, crd.X, crd.Y };
 			SetConsoleScreenBufferSize(GetStdHandle(STD_OUTPUT_HANDLE), crd);
-			box.showlist();
+			box.showlistcolorON();
 			break;
 		}
 		case 2:

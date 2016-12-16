@@ -10,7 +10,8 @@ private:
 public:
 	Product();
 	Product(char*, int, int, int, char*, int);
-	void show();
+	void showcolorON();
+	void showcolorOFF();
 	bool isequal(char*);
 	bool isequaltype(int);
 	bool isequaldate(char *);

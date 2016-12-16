@@ -40,14 +40,26 @@ IceBox::IceBox()
 	size = 0;
 }
 
-void IceBox::showlist()
+void IceBox::showlistcolorON()
 {
 	system("cls");
 	cout << "        Список продуктов\n";
 	for (int i = 0; i < size; i++)
 	{
 		cout << i+1 << ". "; 
-		arr[i].show();
+		arr[i].showcolorON();
+	}
+	waitenter();
+}
+
+void IceBox::showlistcolorOFF()
+{
+	system("cls");
+	cout << "        Список продуктов\n";
+	for (int i = 0; i < size; i++)
+	{
+		cout << i + 1 << ". ";
+		arr[i].showcolorOFF();
 	}
 	waitenter();
 }
@@ -381,7 +393,7 @@ void IceBox::find()
 		{
 			if (arr[i].isequal(charr))
 			{
-				arr[i].show();
+				arr[i].showcolorON();
 				b = false; 
 			}
 		}
@@ -400,7 +412,7 @@ void IceBox::find()
 		{
 			if (arr[i].isequaltype(a))
 			{
-				arr[i].show();
+				arr[i].showcolorON();
 				b = false;
 			}
 		}
@@ -435,7 +447,7 @@ void IceBox::find()
 		{
 			if (arr[i].isequaldate(life))
 			{
-				arr[i].show();
+				arr[i].showcolorOFF();
 				b = false;
 			}
 		}
@@ -555,7 +567,7 @@ void IceBox::watchhistory()
 		infile.read(reinterpret_cast<char*>(&count), sizeof(int));
 		infile.read(reinterpret_cast<char*>(&shelflife), sizeof(char[10]));
 		ar = Product(name, type, mass, count, shelflife, 0);
-		ar.show();
+		ar.showcolorOFF();
 		a = infile.tellg();
 	}
 	if (b) { cout << "История хранения продуктов - пуста." << endl; }
